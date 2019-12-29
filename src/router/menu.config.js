@@ -1,0 +1,37 @@
+export const topMenuConfig = [{
+    key:'home',
+    to:'/',
+    title:'主页'
+},{
+    key:'js',
+    to:'/js',
+    title:'js核心'
+},{
+    key:'react_0',
+    to:'/react_0',
+    title:'react基础'
+},{
+    key:'react_1',
+    to:'/react_1',
+    title:'react高阶'
+},{
+    key:'react_2',
+    to:'/react_2',
+    title:'react拓展'
+},{
+    key:'webpack',
+    to:'/webpack',
+    title:'webpack'
+},{
+    key:'es6',
+    to:'/es6',
+    title:'es6+拓展'
+},{
+    key:'realcc',
+    to:'/realcc',
+    title:'大前端拓展'
+},{
+    key:'friend',
+    to:'/friend',
+    title:'赞助'
+}]

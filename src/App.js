@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import RouterIndex from './router';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+@connect(({login})=>({
+  login
+}),dispatch=>({
+  dispatch
+}))
+class App extends Component{
+  componentDidMount(){
+    const {login,dispatch} = this.props;
+    if(login&&!login.isLogin){
+      const loginCookie = window.localStorage.getItem('loginCookie');
+      if(loginCookie&&window.location.pathname!=='/login'){
+            dispatch({
+              type:"USER_LOGIN",
+              payload:{
+                values:{
+                  cookie:loginCookie
+                }
+              }
+            })
+      }
+    }
+  }
+  render(){
+    return (
+      <RouterIndex />
+    )
+  }
 }
 
 export default App;
