@@ -5,12 +5,17 @@
 .header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+}
+
+.sider {
+    margin: 20px 0 0;
 }
 
 .logobox {
     width: 50px;
     height: 50px;
-    margin: 0 40px;
+    margin: 0 30px;
     min-width: 50px;
     min-height: 50px;
     overflow: hidden;
@@ -22,11 +27,13 @@
 
 .userbox {
     width: 30px;
+    min-width: 30px;
     height: 30px;
-    margin: 0 40px;
+    margin: 0 30px;
     background: #fff;
 }
 
-.topmenu {
+.topMenuItems {
     flex: 1;
+    overflow: hidden;
 }
