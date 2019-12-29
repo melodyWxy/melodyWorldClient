@@ -1,17 +1,20 @@
-import React from "react";
+import React,{lazy,Suspense} from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
 } from "react-router-dom";
-import Home from './../pages/Home';
-import User from './../pages/User';
-import { Layout, Menu } from 'antd';
+
+import { Layout, Menu, Spin } from 'antd';
 import {topMenuConfig} from './menu.config';
-import Login from './../pages/Login';
-import Register from './../pages/Register';
 import styles from './index.module.css';
+
+//pages
+const Home = lazy(()=>import('./../pages/Home'));
+const User = lazy(()=>import('./../pages/User')) ;
+const Login = lazy(()=>import('./../pages/Login'));
+const Register = lazy(()=>import('./../pages/Register'));
 
 
 const { Header, Content, Footer } = Layout;
@@ -24,10 +27,14 @@ export default function RouterIndex() {
     <Router >
         <Switch>
             <Route path='/register'>
-                <Register />
+                <Suspense fallback={<Spin />}>
+                    <Register />
+                </Suspense>
             </Route>
             <Route path="/login">
-                <Login />
+                <Suspense fallback={<Spin />}>
+                    <Login />
+                </Suspense>
             </Route>
             <Route path="/">
                 <Layout className={styles.layout}>
@@ -50,11 +57,16 @@ export default function RouterIndex() {
                     <Content style={{ padding: '50px 50px' }}>
                         <div style={{ background: '#fff', padding: 24, height:'100%',borderRadius:'10px',overflow:'hidden' }}>
                             <Switch>
+
                                 <Route path="/user">
-                                    <User />
+                                    <Suspense fallback={<Spin />}>
+                                        <User />
+                                    </Suspense>
                                 </Route>
                                 <Route path="/">
-                                    <Home />
+                                    <Suspense fallback={<Spin />}>
+                                        <Home />
+                                    </Suspense>
                                 </Route>
                             </Switch>
                         </div>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {Button} from 'antd';
 
 
 export class User extends Component {
@@ -12,12 +11,7 @@ export class User extends Component {
     render() {
         return (
             <div>
-                <Button   
-                    type="primary"
-                    onClick = {this.handleBtnClick}
-                >
-                    点我更新store.state.a
-                </Button>
+                User
             </div>
         )
     }

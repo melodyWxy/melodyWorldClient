@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button, message } from 'antd';
+import { Form, Icon, Input, Button } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import search2obj from '../../utils/search2obj';
@@ -62,9 +62,9 @@ class NormalLoginForm extends React.Component {
           )}
         </Form.Item>
         <Form.Item>
-          <a className="login-form-forgot" href="">
+          <Link className="login-form-forgot" to="/user/forget">
             密码忘记了？
-          </a>
+          </Link>
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>

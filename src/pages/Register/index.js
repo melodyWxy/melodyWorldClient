@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{lazy,Suspense} from 'react';
 import { connect } from 'react-redux'
 import {
   Form,
@@ -7,10 +7,13 @@ import {
   Icon,
   Button,
   message,
+  Spin
 } from 'antd';
+import {withRouter} from 'react-router-dom';
 import { xPost } from '../../utils/xFetch';
 import styles from  "./index.module.css";
-import UploadHeader from './UploadHeader';
+
+const UploadHeader = lazy(()=>import('./UploadHeader'))
 
 
 
@@ -37,7 +40,7 @@ const tailFormItemLayout = {
     },
 };
 
-
+@withRouter
 @connect(({login})=>({
     login
 }),dispatch=>({
@@ -66,7 +69,7 @@ class RegistrationForm extends React.Component {
         }else{
           message.success(res.msg);
           setTimeout(()=>{
-            window.location.pathname = '/login';
+            this.props.history.push('/login');
           },500)
         } 
       }
@@ -110,10 +113,12 @@ class RegistrationForm extends React.Component {
             </span>
           }
         > 
-          <UploadHeader updateImgDate={(data)=>{
-            console.log(data);
-            this.imgData=data;
-          }}/>
+          <Suspense fallback={<Spin size="large" />}>
+            <UploadHeader updateImgDate={(data)=>{
+              console.log(data);
+              this.imgData=data;
+            }}/>
+          </Suspense>
         </Form.Item>
         <Form.Item
           label={

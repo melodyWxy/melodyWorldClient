@@ -9,6 +9,7 @@ export default function(se){
         if(typeof obj[newarr[0]] === "undefined"){
             obj[newarr[0]] = newarr[1];
         }
+        return null;
     });
     return obj;
 } ;
