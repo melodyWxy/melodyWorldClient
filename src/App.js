@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component,lazy,Suspense } from 'react';
 import {connect} from 'react-redux';
-import RouterIndex from './router';
+import {Spin} from 'antd';
+import styles from './App.module.css';
 
-
-
+const RouterIndex = lazy(()=>import('./router'));
 @connect(({login})=>({
   login
 }),dispatch=>({
@@ -29,7 +29,13 @@ class App extends Component{
   render(){
     console.log(this);
     return (
-      <RouterIndex />
+      <Suspense fallback={
+        <div className={styles.app}>
+          <Spin tip="welcome to Melody World..."  size="large"/>
+        </div>
+      }>
+        <RouterIndex />
+      </Suspense>
     )
   }
 }
