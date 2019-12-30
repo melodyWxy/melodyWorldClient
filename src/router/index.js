@@ -79,7 +79,7 @@ export default class RouterIndex extends Component{
                                             style={{ lineHeight: '64px' }}
                                             onSelect= {this.handleTopMenuChange}
                                         >
-                                        {TopMenuItems}
+                                            {TopMenuItems}
                                         </Menu>
                                     </div>
                                     <UserHeader />
