@@ -7,15 +7,15 @@ import {
   Link,
 } from "react-router-dom";
 
-import { Layout , Menu, Spin } from 'antd';
+import { Layout , Menu, Spin, } from 'antd';
 import {topMenuConfig,siderMenuConfig} from './menu.config';
 import styles from './index.module.css';
 
 //pages
-const Home = lazy(()=>import('./../pages/Home'));
-const User = lazy(()=>import('./../pages/User')) ;
-const Login = lazy(()=>import('./../pages/Login'));
-const Register = lazy(()=>import('./../pages/Register'));
+const Home = lazy(()=>import('../pages/Home'));
+const User = lazy(()=>import('../pages/User')) ;
+const Login = lazy(()=>import('../pages/Login'));
+const Register = lazy(()=>import('../pages/Register'));
 
 
 
@@ -26,7 +26,9 @@ const TopMenuItems = topMenuConfig.map(item=>(
 
 export default class RouterIndex extends Component{ 
     state = {
+        // topMenu控制的一级路由
         path :window.location.pathname.split('/')[1]?'/'+window.location.pathname.split('/')[1]:'',
+        // siderMenu控制的二级路由
         siderKey:window.location.pathname.split('/')[2]?'/'+window.location.pathname.split('/')[2]:'',
     }
     handleTopMenuChange = item => {
@@ -41,7 +43,6 @@ export default class RouterIndex extends Component{
             siderKey:item.key==='/'?'':item.key
         })
     }
-
     renderSiderMenuItems = ()=>{
         return siderMenuConfig.map(item=>(
             <Menu.Item key={item.key}><Link to={this.state.path+item.to}>{item.title}</Link></Menu.Item>
@@ -81,40 +82,44 @@ export default class RouterIndex extends Component{
                                         </Menu>
                                     </div>
                                     <div className={styles.userbox}></div>
-                        
                             </Header>
-                        
-                            <Layout>
-                                <Sider theme="light" className={styles.sider}>
+                                <Layout>
+                                    <Sider 
+                                        theme="dark" 
+                                        collapsible={true}  
+                                        className={styles.sider}
+                                        width={160}
+                                        collapsedWidth={0}
+                                    >
                                         <Menu
                                             theme="dark"
-                                            mode="vertical"
+                                            mode="inline"
+                                            style={{paddingTop:"10px"}}
                                             selectedKeys={[siderKey===''?'/':siderKey]}
-                                            style={{ height:"100%"}}
                                             onSelect={this.handleSiderMenuChange}
                                         >
                                             {siderMenuItems}
                                         </Menu>
-                                </Sider>
-                                <Content style={{ padding: '20px 30px 0' }}>
-                                    <div style={{ background: '#fff', padding: 24, height:'100%',borderRadius:'10px',overflow:'hidden' }}>
-                                        <Switch>
-                                            <Route path="/user">
-                                                <Suspense fallback={<Spin />}>
-                                                    <User />
-                                                </Suspense>
-                                            </Route>
-                                            <Route path="/">
-                                                <Suspense fallback={<Spin />}>
-                                                    <Home />
-                                                </Suspense>
-                                            </Route>
-                                        </Switch>
-                                    </div>
-                                </Content>
+                                    </Sider>
+                                    <Content style={{ padding: '20px 30px 0 40px' }}>
+                                        <div style={{ background: '#fff', padding: 24, height:'100%',borderRadius:'10px',overflow:'hidden' }}>
+                                            <Switch>
+                                                <Route path="/user">
+                                                    <Suspense fallback={<Spin />}>
+                                                        <User />
+                                                    </Suspense>
+                                                </Route>
+                                                <Route path="/">
+                                                    <Suspense fallback={<Spin />}>
+                                                        <Home />
+                                                    </Suspense>
+                                                </Route>
+                                            </Switch>
+                                        </div>
+                                    </Content>
+                                </Layout>
+                                <Footer style={{ textAlign: 'center' }}>Melody World ©2019 Created by melodyWxy</Footer>
                             </Layout>
-                            <Footer style={{ textAlign: 'center' }}>Melody World ©2019 Created by melodyWxy</Footer>
-                        </Layout>
                     </Route>
                 </Switch>
 
