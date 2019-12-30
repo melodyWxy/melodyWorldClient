@@ -16,7 +16,8 @@ const Home = lazy(()=>import('../pages/Home'));
 const User = lazy(()=>import('../pages/User')) ;
 const Login = lazy(()=>import('../pages/Login'));
 const Register = lazy(()=>import('../pages/Register'));
-
+//components
+const UserHeader= lazy(()=>import('../components/UserHeader'));
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -81,7 +82,7 @@ export default class RouterIndex extends Component{
                                         {TopMenuItems}
                                         </Menu>
                                     </div>
-                                    <div className={styles.userbox}></div>
+                                    <UserHeader />
                             </Header>
                                 <Layout>
                                     <Sider 
