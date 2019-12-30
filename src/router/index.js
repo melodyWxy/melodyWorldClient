@@ -25,6 +25,7 @@ const TopMenuItems = topMenuConfig.map(item=>(
     <Menu.Item key={item.key}><Link to={item.to}>{item.title}</Link></Menu.Item>
 ))
 
+
 export default class RouterIndex extends Component{ 
     state = {
         // topMenu控制的一级路由
