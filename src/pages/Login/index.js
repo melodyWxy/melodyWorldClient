@@ -20,6 +20,7 @@ class NormalLoginForm extends React.Component {
         console.log('Received values of form: ', values);
         // const res =await xPost('/login',values);
         const params =  window.location.search && search2obj(window.location.search);
+        console.log(params);
         const {history = {}} = this.props;
         this.props.dispatch({
           type: "USER_LOGIN",
@@ -36,7 +37,6 @@ class NormalLoginForm extends React.Component {
   };
 
   render() {
-    console.log(this);
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
