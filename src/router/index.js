@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
+  Link
 } from "react-router-dom";
 
 import { Layout , Menu, Spin, } from 'antd';
@@ -24,7 +24,6 @@ const { Header, Content, Footer, Sider } = Layout;
 const TopMenuItems = topMenuConfig.map(item=>(
     <Menu.Item key={item.key}><Link to={item.to}>{item.title}</Link></Menu.Item>
 ))
-
 
 export default class RouterIndex extends Component{ 
     state = {
@@ -130,3 +129,4 @@ export default class RouterIndex extends Component{
         );
     }
 }
+

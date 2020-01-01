@@ -13,6 +13,7 @@ import {withRouter} from 'react-router-dom';
 import { xPost } from '../../utils/xFetch';
 import styles from  "./index.module.css";
 
+
 const UploadHeader = lazy(()=>import('./UploadHeader'))
 
 
@@ -69,7 +70,8 @@ class RegistrationForm extends React.Component {
         }else{
           message.success(res.msg);
           setTimeout(()=>{
-            this.props.history.push('/login');
+           
+            this.props.history.push(`/login${window.location.href.replace(window.location.origin+'/register','')}`);
           },500)
         } 
       }
