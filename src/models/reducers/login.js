@@ -36,6 +36,7 @@ function login(state = initState,{ type='', payload={} }){
     switch(type){
         case loginTypes.login:
             return { 
+                ...state,
                 isLogin:true,
                 user
             }
