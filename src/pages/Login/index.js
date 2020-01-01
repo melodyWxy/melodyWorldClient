@@ -35,7 +35,11 @@ class NormalLoginForm extends React.Component {
       }
     });
   };
-
+  linkToRegister = ()=>{
+        //记录当前的path参数
+        const nowPath = window.location.href.replace(window.location.origin+'/login','');
+        this.props.history&&this.props.history.push(`/register${nowPath}`)
+    }
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -68,7 +72,7 @@ class NormalLoginForm extends React.Component {
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>
-          Or <Link to="/register">现在注册吧!</Link>
+          Or <a onClick = {this.linkToRegister}>现在注册吧!</a>
         </Form.Item>
       </Form>
     );
