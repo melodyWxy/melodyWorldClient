@@ -1,13 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
+import Markdown from 'react-markdown';
+import styles from './index.module.css';
 
-
-class Home extends Component {
-
-    render() {
-        return (
-        <div>home</div>
-        )
-    }
+ 
+function Home(){
+    return (
+        <>
+            <div className={styles.mdwrap}>
+                <Markdown  source = "# Your markdown here"/>
+            </div>
+        </>
+    )
 }
 
 // const NHome = connect(Home);

@@ -1,0 +1,20 @@
+.mdwrap {}
+
+
+.goodbox {
+    background-size: 50% 50%;
+    background-position: center;
+    width: 26px;
+    height: 26px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.goodIcon {
+    background: url('./../../static/good-icon.svg') no-repeat;
+}
+
+.goodIconL {
+    background: url('./../../static/good-light-icon.svg') no-repeat;
+}

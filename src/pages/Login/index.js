@@ -21,7 +21,7 @@ class NormalLoginForm extends React.Component {
         // const res =await xPost('/login',values);
         const params =  window.location.search && search2obj(window.location.search);
         console.log(params);
-        const {history = {}} = this.props;
+        const { history = {} } = this.props;
         this.props.dispatch({
           type: "USER_LOGIN",
           payload: {

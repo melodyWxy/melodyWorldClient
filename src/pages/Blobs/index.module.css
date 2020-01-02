@@ -1,0 +1,46 @@
+.mdwrap {}
+
+
+
+.mdbt {
+    margin-top: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btlr {
+    display: flex;
+    align-items: center;
+}
+
+
+.goodbox {
+    background-size: 50% 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 26px;
+    height: 26px;
+    border: 1px solid #999;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.goodIcon {
+    background-image: url('./../../static/good-icon.svg');
+}
+
+.goodIconL {
+    border-color: #1890ff;
+    background-image: url('./../../static/good-light-icon.svg');
+}
+
+.storeIcon {
+    background-image: url('./../../static/store-icon.svg');
+}
+
+.storeIconL {
+    border-color: #1890ff;
+    background-image: url('./../../static/store-light-icon.svg');
+}

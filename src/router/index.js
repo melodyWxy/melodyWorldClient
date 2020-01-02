@@ -16,6 +16,7 @@ const Home = lazy(()=>import('../pages/Home'));
 const User = lazy(()=>import('../pages/User')) ;
 const Login = lazy(()=>import('../pages/Login'));
 const Register = lazy(()=>import('../pages/Register'));
+const Blobs = lazy(()=>import('../pages/Blobs'));
 //components
 const UserHeader= lazy(()=>import('../components/UserHeader'));
 
@@ -32,6 +33,7 @@ export default class RouterIndex extends Component{
         // siderMenu控制的二级路由
         siderKey:window.location.pathname.split('/')[2]?'/'+window.location.pathname.split('/')[2]:'',
     }
+    
     handleTopMenuChange = item => {
         this.setState({
             path:item.key==='/'?'':item.key,
@@ -89,7 +91,7 @@ export default class RouterIndex extends Component{
                                         theme="dark" 
                                         collapsible={true}  
                                         className={styles.sider}
-                                        width={160}
+                                        width={150}
                                         collapsedWidth={0}
                                     >
                                         <Menu
@@ -110,11 +112,17 @@ export default class RouterIndex extends Component{
                                                         <User />
                                                     </Suspense>
                                                 </Route>
-                                                <Route path="/">
+                                                <Route path="/*/blobs">
+                                                    <Suspense fallback={<Spin />}>
+                                                        <Blobs />
+                                                    </Suspense>
+                                                </Route>
+                                                <Route path="/*/">
                                                     <Suspense fallback={<Spin />}>
                                                         <Home />
                                                     </Suspense>
                                                 </Route>
+  
                                             </Switch>
                                         </div>
                                     </Content>
