@@ -13,10 +13,13 @@ import styles from './index.module.css';
 
 //pages
 const Home = lazy(()=>import('../pages/Home'));
+const Blobs = lazy(()=>import('../pages/Blobs'));
+const ClassVideo = lazy(()=>import('../pages/ClassVideo'))
 const User = lazy(()=>import('../pages/User')) ;
 const Login = lazy(()=>import('../pages/Login'));
 const Register = lazy(()=>import('../pages/Register'));
-const Blobs = lazy(()=>import('../pages/Blobs'));
+const UploadAdmin = lazy(()=>import('../pages/UploadAdmin'));
+
 //components
 const UserHeader= lazy(()=>import('../components/UserHeader'));
 
@@ -67,6 +70,12 @@ export default class RouterIndex extends Component{
                             <Login />
                         </Suspense>
                     </Route>
+                    UploadAdmin
+                    <Route path="/uploadAdmin">
+                        <Suspense fallback={<Spin />}>
+                            <UploadAdmin />
+                        </Suspense>
+                    </Route>
                     <Route path="/">
                         <Layout className={styles.layout}>
                             <Header className={styles.header} >
@@ -115,6 +124,11 @@ export default class RouterIndex extends Component{
                                                 <Route path="/*/blobs">
                                                     <Suspense fallback={<Spin />}>
                                                         <Blobs />
+                                                    </Suspense>
+                                                </Route>
+                                                <Route path="/*/class_video">
+                                                    <Suspense fallback={<Spin />}>
+                                                        <ClassVideo />
                                                     </Suspense>
                                                 </Route>
                                                 <Route path="/*/">
