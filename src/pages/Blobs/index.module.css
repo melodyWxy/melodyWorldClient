@@ -3,8 +3,8 @@
 
 
 .mdbt {
-    margin-top: 20px;
-    padding: 20px;
+    margin-top: 40px;
+    padding: 20px 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -13,14 +13,26 @@
 .btlr {
     display: flex;
     align-items: center;
+    justify-content: space-around;
+    overflow: hidden;
 }
 
+.btr {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
 
 .goodbox {
     background-size: 50% 50%;
     background-position: center;
     background-repeat: no-repeat;
     width: 26px;
+    min-width: 26px;
+    min-height: 26px;
     height: 26px;
     border: 1px solid #999;
     border-radius: 15px;
