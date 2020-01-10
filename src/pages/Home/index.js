@@ -3,12 +3,13 @@ import Markdown from 'react-markdown';
 import styles from './index.module.css';
 
  
-function Home(){
+function Home(props){
+    const { homeMd = '' } = props;  
     return (
         <>
             home
             <div className={styles.mdwrap}>
-                <Markdown  source = "# Your markdown here"/>
+                <Markdown  source = {homeMd}/>
             </div>
         </>
     )

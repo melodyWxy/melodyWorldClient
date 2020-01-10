@@ -6,7 +6,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
-
+import { connect } from 'react-redux';
 import { Layout , Menu, Spin, } from 'antd';
 import {topMenuConfig,siderMenuConfig} from './menu.config';
 import styles from './index.module.css';
@@ -29,29 +29,63 @@ const TopMenuItems = topMenuConfig.map(item=>(
     <Menu.Item key={item.key}><Link to={item.to}>{item.title}</Link></Menu.Item>
 ))
 
-export default class RouterIndex extends Component{ 
-    state = {
-        // topMenu控制的一级路由
-        path :window.location.pathname.split('/')[1]?'/'+window.location.pathname.split('/')[1]:'',
-        // siderMenu控制的二级路由
-        siderKey:window.location.pathname.split('/')[2]?'/'+window.location.pathname.split('/')[2]:'',
+
+@connect(()=>({}),dispatch=>({
+    dispatch
+}))
+class RouterIndex extends Component{ 
+    constructor(props){
+        super(props);
+        const  { pathname } = window.location;
+        const  pnList  = pathname.split('/');
+        // 一级路由
+        let path = pnList[1]?'/'+pnList[1]:'/'; 
+        // 二级路由
+        let siderKey = pnList[2]?'/'+pnList[2]:'/';
+        if(path==='/'||path==='/blobs'||path==='/class_video'){
+            siderKey = path ;
+            path = '/';
+        }
+        this.state = {
+            // topMenu控制的一级路由
+            path,
+            // siderMenu控制的二级路由
+            siderKey,
+        }
     }
-    
+
+    componentDidMount(){
+        this.updateStore('UPDATE_BLOBMD',{
+            blobName:'home-home.md'
+        })
+    }
+
+    updateStore = (type, values) => {
+        this.props.dispatch({
+            type,
+            payload: {
+                values
+            }
+        })
+    }
+
     handleTopMenuChange = item => {
         this.setState({
-            path:item.key==='/'?'':item.key,
+            path:item.key,
             siderKey:'/'
         })
+
     }
 
     handleSiderMenuChange = item => {
         this.setState({
-            siderKey:item.key==='/'?'':item.key
+            siderKey:item.key
         })
     }
     renderSiderMenuItems = ()=>{
+        const { path } = this.state;
         return siderMenuConfig.map(item=>(
-            <Menu.Item key={item.key}><Link to={this.state.path+item.to}>{item.title}</Link></Menu.Item>
+            <Menu.Item key={item.key}><Link to={ path==='/'?item.to:path+item.to }>{item.title}</Link></Menu.Item>
         ))
     }
     render(){
@@ -70,7 +104,6 @@ export default class RouterIndex extends Component{
                             <Login />
                         </Suspense>
                     </Route>
-                    UploadAdmin
                     <Route path="/uploadAdmin">
                         <Suspense fallback={<Spin />}>
                             <UploadAdmin />
@@ -86,7 +119,7 @@ export default class RouterIndex extends Component{
                                         <Menu
                                             theme="dark"
                                             mode="horizontal"
-                                            selectedKeys={[path===''?'/':path]}
+                                            selectedKeys={[path]}
                                             style={{ lineHeight: '64px' }}
                                             onSelect= {this.handleTopMenuChange}
                                         >
@@ -107,7 +140,7 @@ export default class RouterIndex extends Component{
                                             theme="dark"
                                             mode="inline"
                                             style={{paddingTop:"10px"}}
-                                            selectedKeys={[siderKey===''?'/':siderKey]}
+                                            selectedKeys={[siderKey]}
                                             onSelect={this.handleSiderMenuChange}
                                         >
                                             {siderMenuItems}
@@ -119,6 +152,16 @@ export default class RouterIndex extends Component{
                                                 <Route path="/user">
                                                     <Suspense fallback={<Spin />}>
                                                         <User />
+                                                    </Suspense>
+                                                </Route>
+                                                <Route path="/blobs">
+                                                    <Suspense fallback={<Spin />}>
+                                                        <Blobs />
+                                                    </Suspense>
+                                                </Route>
+                                                <Route path="/class_video">
+                                                    <Suspense fallback={<Spin />}>
+                                                        <ClassVideo />
                                                     </Suspense>
                                                 </Route>
                                                 <Route path="/*/blobs">
@@ -152,3 +195,4 @@ export default class RouterIndex extends Component{
     }
 }
 
+export default  RouterIndex;
