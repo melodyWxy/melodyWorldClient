@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import {connect} from 'react-redux'; 
 import Markdown from 'react-markdown';
 import styles from './index.module.css';
 
@@ -21,13 +22,14 @@ const renderMDBottom = () => (
         </div> 
     </div>
 )
-function Blobs(){
-    console.log('blobs');
-    
+function Blobs(props){
+    console.log(props,'bp');
+    const { blobs = {} } = props;
+    const { blobMd = '' }  =blobs;
     return (
         <>
             <div className={styles.mdwrap}>
-                <Markdown  source = "# Your markdown here"/>
+                <Markdown  source = {blobMd} />
             </div>
         </>
     )
@@ -35,5 +37,5 @@ function Blobs(){
 
 // const NHome = connect(Home);
  
-export default Blobs;
+export default connect(({blobs})=>({blobs}))(Blobs);
 
