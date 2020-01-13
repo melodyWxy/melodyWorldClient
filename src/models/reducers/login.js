@@ -11,7 +11,7 @@ export  function* login_effect ({ payload={} }){
     const res = yield call(loginGlobal,values);
     const {isSuccess,data,msg} = res;
     if(!isSuccess){
-        message.error(msg);
+        message.warning(msg);
     }else{
         if(!data.user.headerImgUrl){
             data.user.headerImgUrl = defaultHeaderSrc;

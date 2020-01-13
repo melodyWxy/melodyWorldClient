@@ -56,7 +56,7 @@ class RouterIndex extends Component{
 
     componentDidMount(){
         this.updateStore('UPDATE_BLOBMD',{
-            blobName:'home-home.md'
+            key:'home-home.md'
         })
     }
 
