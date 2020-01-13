@@ -1,6 +1,7 @@
 import React, { Component,lazy,Suspense } from 'react';
 import {connect} from 'react-redux';
 import {Spin} from 'antd';
+import logo from './static/logo.png';
 import styles from './App.module.css';
 
 const RouterIndex = lazy(()=>import('./router'));
@@ -31,7 +32,8 @@ class App extends Component{
     return (
       <Suspense fallback={
         <div className={styles.app}>
-          <Spin tip="welcome to Melody World..."  size="large"/>
+           <img  src={logo} />
+           <Spin />
         </div>
       }>
         <RouterIndex />
