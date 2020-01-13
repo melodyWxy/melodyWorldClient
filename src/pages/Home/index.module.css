@@ -1,4 +1,7 @@
-.mdwrap {}
+.mdwrap {
+    overflow: scroll;
+    height: 100%;
+}
 
 
 .goodbox {
