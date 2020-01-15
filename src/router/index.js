@@ -188,7 +188,14 @@ class RouterIndex extends Component{
                                         </div>
                                     </Content>
                                 </Layout>
-                                <Footer style={{ textAlign: 'center' }}>Melody World ©2019 Created by melodyWxy</Footer>
+                                <Footer style={{ textAlign: 'center' }}>
+                                    <div>
+                                        MW ©2019 Created by melodyWxy
+                                    </div>
+                                    <div>
+                                        <a href='http://www.beian.miit.gov.cn/' target='_blank' >浙ICP备20001308号</a>
+                                    </div>
+                                </Footer>
                             </Layout>
                     </Route>
                 </Switch>

@@ -12,7 +12,9 @@ import { Button, Input, message } from 'antd';
 function UploadAdmin(props){
 
     const timerRef = useRef();
-    const inputRef = useRef();
+    const keyRef = useRef();
+    const versionRef= useRef();
+    const authorRef = useRef();
 
     const mdValue = window.localStorage.getItem('mdValue') || '' ; 
 
@@ -42,16 +44,30 @@ function UploadAdmin(props){
     const {value} = state; 
 
     const uploadMD = () => {
-      if(!inputRef||!inputRef.current||!inputRef.current.input){
+      if(!keyRef||!keyRef.current||!keyRef.current.input){
         message.warning('key can not be null!');
         return ;
       }
-      const key = inputRef.current.input.value;
+      if(!versionRef||!versionRef.current||!versionRef.current.input){
+        message.warning('version can not be null!');
+        return ;
+      }
+      if(!authorRef||!authorRef.current||!authorRef.current.input){
+        message.warning('author can not be null!');
+        return ;
+      }
+
+      const key = keyRef.current.input.value;
+      const version = versionRef.current.input.value;
+      const author = authorRef.current.input.value;
+      
       props.dispatch({
         type: 'UPLOAD_BLOBS',
         payload: {
           values:{
             key,
+            version,
+            author,
             data: value
           }
         }
@@ -79,7 +95,9 @@ function UploadAdmin(props){
                 />
             </div>
         </div>
-        <Input ref={inputRef}/>
+        key:<Input ref={keyRef}/>
+        version: <Input ref={versionRef}/>
+        author: <Input ref={authorRef} defaultValue='melodyWxy'/>
         <Button 
           type='primary'
           onClick = {uploadMD}
