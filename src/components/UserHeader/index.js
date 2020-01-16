@@ -28,7 +28,7 @@ import styles from './index.module.css';
     return isLogin? (
         <div >
             <Link to='/user'>
-                <Avatar src={user.headerImgUrl} />
+                <Avatar src={user.headerImgUrl} style={{background:'#fff'}} />
             </Link>
         </div>
     ) : LGRef.current

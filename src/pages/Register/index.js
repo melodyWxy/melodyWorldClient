@@ -66,13 +66,12 @@ class RegistrationForm extends React.Component {
         console.log(values);
         const res = await xPost('/register',values)
         if(!res.isSuccess){
-          message.error(res.msg);
+          message.error(res.msg||'');
         }else{
-          message.success(res.msg);
+          message.success(res.msg||'');
           setTimeout(()=>{
-           
             this.props.history.push(`/login${window.location.href.replace(window.location.origin+'/register','')}`);
-          },500)
+          },800)
         } 
       }
     });

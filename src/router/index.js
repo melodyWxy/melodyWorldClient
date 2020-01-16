@@ -8,9 +8,9 @@ import {
 } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Layout , Menu, Spin, } from 'antd';
+import Logo from './../components/Logo';
 import {topMenuConfig,siderMenuConfig} from './menu.config';
 import styles from './index.module.css';
-import logo from './../static/logo.png';
 
 //pages
 const Home = lazy(()=>import('../pages/Home'));
@@ -114,10 +114,7 @@ class RouterIndex extends Component{
                         <Layout className={styles.layout}>
                             <Header className={styles.header} >
                                     <div className={styles.logobox}>
-                                        <img  
-                                            className={styles.logopng} 
-                                            src= {logo}
-                                        />
+                                        <Logo />
                                     </div>
                                     <div  className={styles.topMenuItems}>
                                         <Menu

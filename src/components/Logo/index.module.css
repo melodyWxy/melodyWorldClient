@@ -1,0 +1,17 @@
+.logopng {
+    width: 100%;
+    transform: scale(1.5);
+    height: 100%;
+}
+
+.llw {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.4);
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
