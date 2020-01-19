@@ -10,7 +10,8 @@ import {
   Spin
 } from 'antd';
 import {withRouter} from 'react-router-dom';
-import { xPost } from '../../utils/xFetch';
+import NodeRSA from 'node-rsa';
+import { xGet, xPost } from '../../utils/xFetch';
 import styles from  "./index.module.css";
 
 
@@ -59,24 +60,46 @@ class RegistrationForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        console.log(this.imgData);
         const {headerImgUrl,headerImgName} = this.imgData;
         headerImgUrl&&(values.headerImgUrl = headerImgUrl);
         headerImgName&&(values.headerImgName = headerImgName);
-        console.log(values);
+        const Public_key = new NodeRSA(this.publicDer);
+        // 公钥加密
+        values.nickname = Public_key.encrypt(values.nickname,'base64','utf8');
+        values.password = Public_key.encrypt(values.password,'base64','utf8');
+        values.confirm = Public_key.encrypt(values.confirm,'base64','utf8');
+        console.log('小朋友你在看什么嘞?',values);
         const res = await xPost('/register',values)
         if(!res.isSuccess){
-          message.error(res.msg);
+          message.error(res.msg||'');
         }else{
-          message.success(res.msg);
+          message.success(res.msg||'');
           setTimeout(()=>{
-           
             this.props.history.push(`/login${window.location.href.replace(window.location.origin+'/register','')}`);
-          },500)
+          },800)
         } 
       }
     });
   };
+
+  componentDidMount(){
+    this.publicDer =  window.localStorage.getItem('publicDer');
+    if(!this.publicDer){
+      xGet('/der/getPublicDer')
+        .then(res=>{
+          if(res.code===200){
+            this.publicDer = res.data.publicDer;
+            window.localStorage.setItem('publicDer',this.publicDer)
+          }else{
+            message.error(res.msg||'获取公钥失败！')
+          }
+        })
+        .catch(err=>{
+          console.log(err);
+          message.error('获取公钥失败！您的网络是否已打开？')
+        })
+    }
+  }
 
   handleConfirmBlur = e => {
     const { value } = e.target;

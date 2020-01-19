@@ -7,10 +7,10 @@ import {
   Link
 } from "react-router-dom";
 import { connect } from 'react-redux';
-import { Layout , Menu, Spin, } from 'antd';
+import { Layout , Menu, Spin, Icon } from 'antd';
+import Logo from './../components/Logo';
 import {topMenuConfig,siderMenuConfig} from './menu.config';
 import styles from './index.module.css';
-import logo from './../static/logo.png';
 
 //pages
 const Home = lazy(()=>import('../pages/Home'));
@@ -26,6 +26,8 @@ const UserHeader= lazy(()=>import('../components/UserHeader'));
 
 
 const { Header, Content, Footer, Sider } = Layout;
+const { SubMenu } = Menu;
+
 const TopMenuItems = topMenuConfig.map(item=>(
     <Menu.Item key={item.key}><Link to={item.to}>{item.title}</Link></Menu.Item>
 ))
@@ -84,14 +86,38 @@ class RouterIndex extends Component{
         })
     }
     renderSiderMenuItems = ()=>{
-        const { path } = this.state;
-        return siderMenuConfig.map(item=>(
-            <Menu.Item key={item.key}><Link to={ path==='/'?item.to:path+item.to }>{item.title}</Link></Menu.Item>
-        ))
+        const { path, siderKey } = this.state;
+        return (
+            <Menu
+                theme="dark"
+                mode="inline"
+                style={{paddingTop:"10px"}}
+                selectedKeys={[siderKey]}
+                onSelect={this.handleSiderMenuChange}
+            >
+                <Menu.item key='/'>
+                    <Icon type="inbox" />
+                    <Link to='/' >概述</Link>
+                </Menu.item>
+                <SubMenu key='/blobs' title={
+                    <span>
+                        <Icon type="inbox" />
+                        <Link to='/' >博客</Link>   
+                    </span>
+                }>
+                    
+                </SubMenu>
+                <SubMenu key='/class_video'>
+                </SubMenu>
+            </Menu>
+        )
+        // return siderMenuConfig.map(item=>(
+        //     <Menu.Item key={item.key}><Link to={ path==='/'?item.to:path+item.to }>{item.title}</Link></Menu.Item>
+        // ))
     }
     render(){
         const { path,siderKey } = this.state;
-        const siderMenuItems = this.renderSiderMenuItems();
+        // const siderMenuItems = this.renderSiderMenuItems();
         return (
             <Router >
                 <Switch>
@@ -114,10 +140,7 @@ class RouterIndex extends Component{
                         <Layout className={styles.layout}>
                             <Header className={styles.header} >
                                     <div className={styles.logobox}>
-                                        <img  
-                                            className={styles.logopng} 
-                                            src= {logo}
-                                        />
+                                        <Logo />
                                     </div>
                                     <div  className={styles.topMenuItems}>
                                         <Menu
@@ -140,15 +163,7 @@ class RouterIndex extends Component{
                                         width={150}
                                         collapsedWidth={0}
                                     >
-                                        <Menu
-                                            theme="dark"
-                                            mode="inline"
-                                            style={{paddingTop:"10px"}}
-                                            selectedKeys={[siderKey]}
-                                            onSelect={this.handleSiderMenuChange}
-                                        >
-                                            {siderMenuItems}
-                                        </Menu>
+                                      sidermenu
                                     </Sider>
                                     <Content style={{ padding: '20px 30px 0 40px' }}>
                                         <div style={{ background: '#fff', padding: 24, height:'100%',borderRadius:'10px',overflow:'hidden' }}>
@@ -199,7 +214,6 @@ class RouterIndex extends Component{
                             </Layout>
                     </Route>
                 </Switch>
-
 
             </Router>
         );

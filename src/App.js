@@ -28,7 +28,6 @@ class App extends Component{
     }
   }
   render(){
-    console.log(this);
     return (
       <Suspense fallback={
         <div className={styles.app}>

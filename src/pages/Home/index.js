@@ -14,6 +14,7 @@ function Home(props){
 `# Melody World
 
 <br>
+
 <blockquote>MW(Melody World) 是一个前端知识开源学习社区。</blockquote>
 <blockquote>这个社区目前主要的内容以作者(melodyWxy)技术栈为核心辐射出的学习内容，并且在不断的更新当中。</blockquote>
 <blockquote>假如你从某篇笔记或者某个课程里学到了一些东西，你一定不会吝啬点一个赞——这也是作者的初衷，将己身的所学所知开源共享，而从中收获哪怕只是简单的一个认可。</blockquote>
