@@ -1,0 +1,58 @@
+.mdwrap {}
+
+
+
+.mdbt {
+    margin-top: 40px;
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btlr {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    overflow: hidden;
+}
+
+.btr {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.goodbox {
+    background-size: 50% 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 26px;
+    min-width: 26px;
+    min-height: 26px;
+    height: 26px;
+    border: 1px solid #999;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.goodIcon {
+    background-image: url('./../../static/good-icon.svg');
+}
+
+.goodIconL {
+    border-color: #1890ff;
+    background-image: url('./../../static/good-light-icon.svg');
+}
+
+.storeIcon {
+    background-image: url('./../../static/store-icon.svg');
+}
+
+.storeIconL {
+    border-color: #1890ff;
+    background-image: url('./../../static/store-light-icon.svg');
+}

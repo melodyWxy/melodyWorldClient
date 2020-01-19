@@ -1,33 +1,38 @@
 import React,{useRef} from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link,withRouter} from 'react-router-dom';
 import {Avatar} from 'antd';
-
+import styles from './index.module.css';
 
 
  function UserHeader(props){
-     console.log(props,5)
     const {isLogin,user={}} = props.login;
+    const LinkTo = (targetPath)=>{
+        //记录当前的path参数
+        const nowPath = window.location.href.replace(window.location.origin,'');
+        const callbackPath = nowPath==='/'?'': `?callback=${nowPath}`;
+        props.history&&props.history.push(`${targetPath}${callbackPath}`)
+    }
     //记录 未登录的UI
     const LGRef = useRef(
-        <div >
-            <Link to='/login'>    
+        <div style={{color:"#B4CDCD"}}>
+            <a className={styles.span} onClick={()=>LinkTo('/login')}>    
                 登录
-            </Link>
+            </a>
                 |
-            <Link to='/register'>
+            <a className={styles.span} onClick={()=>LinkTo('/register')}>
                 注册
-            </Link>
+            </a>
         </div>
     )
     return isLogin? (
         <div >
             <Link to='/user'>
-                <Avatar src={user.headerImgUrl} />
+                <Avatar src={user.headerImgUrl} style={{background:'#fff'}} />
             </Link>
         </div>
     ) : LGRef.current
 }
 export default connect(({login})=>({
     login
-}),()=>({}))(UserHeader)
+}),()=>({}))(withRouter(UserHeader))

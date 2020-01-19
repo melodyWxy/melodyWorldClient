@@ -15,15 +15,15 @@
 .logobox {
     width: 50px;
     height: 50px;
-    margin-right: 60px;
+    margin-right: 50px;
     min-width: 50px;
     min-height: 50px;
-    overflow: hidden;
     border-radius: 30px;
     background: #fff;
     text-align: center;
     line-height: 50px;
 }
+
 
 .userbox {
     width: 30px;

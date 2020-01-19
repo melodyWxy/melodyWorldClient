@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
 import loginReducer from  './login';
+import blobsReducer from './blobs';
+
 
 const reducers = combineReducers({
-    login:loginReducer
+    login:loginReducer,
+    blobs:blobsReducer
 })
 
 
