@@ -1,9 +1,11 @@
 import React from 'react';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import NodeRSA from 'node-rsa';
 import search2obj from '../../utils/search2obj';
 import './index.css';
+import { xGet } from '../../utils/xFetch';
 
 
 @withRouter
@@ -13,14 +15,19 @@ import './index.css';
   dispatch
 }))
 class NormalLoginForm extends React.Component {
+  publicDer = '';
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         // const res =await xPost('/login',values);
         const params =  window.location.search && search2obj(window.location.search);
-        console.log(params);
+        const Public_key = new NodeRSA(this.publicDer);
+
+        // 公钥加密
+        values.nickname = Public_key.encrypt(values.nickname,'base64','utf8');
+        values.password = Public_key.encrypt(values.password,'base64','utf8');
+        console.log('小朋友，你是看不见账号密码的!',values);
         const { history = {} } = this.props;
         this.props.dispatch({
           type: "USER_LOGIN",
@@ -36,10 +43,30 @@ class NormalLoginForm extends React.Component {
     });
   };
   linkToRegister = ()=>{
-        //记录当前的path参数
-        const nowPath = window.location.href.replace(window.location.origin+'/login','');
-        this.props.history&&this.props.history.push(`/register${nowPath}`)
+    //记录当前的path参数
+    const nowPath = window.location.href.replace(window.location.origin+'/login','');
+    this.props.history&&this.props.history.push(`/register${nowPath}`);
+  }
+  
+  componentDidMount(){
+    this.publicDer =  window.localStorage.getItem('publicDer');
+    if(!this.publicDer){
+      xGet('/der/getPublicDer')
+        .then(res=>{
+          if(res.code===200){
+            this.publicDer = res.data.publicDer;
+            window.localStorage.setItem('publicDer',this.publicDer)
+          }else{
+            message.error(res.msg||'获取公钥失败！')
+          }
+        })
+        .catch(err=>{
+          console.log(err);
+          message.error('获取公钥失败！您的网络是否已打开？')
+        })
     }
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
