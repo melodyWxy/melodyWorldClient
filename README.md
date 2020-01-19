@@ -19,12 +19,12 @@ email: 18210711176@163.com
 
 ### register
 
-![register](https://github.com/melodyWxy/melodyWorldClient/tree/master/doc/pdfs/MW-register.pdf)
+![register](https://melodyworld.oss-cn-beijing.aliyuncs.com/publicDoc/doc-jpgs/register.jpg?x-oss-process=style/_90_90)
 
 
 ### login 
 
-![register](https://github.com/melodyWxy/melodyWorldClient/tree/master/doc/pdfs/MW-login.pdf)
+![login](https://melodyworld.oss-cn-beijing.aliyuncs.com/publicDoc/doc-jpgs/login.jpg?x-oss-process=style/_90_90)
 
 
 ### blobs
