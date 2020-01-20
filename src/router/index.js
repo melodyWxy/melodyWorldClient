@@ -7,10 +7,14 @@ import {
   Link
 } from "react-router-dom";
 import { connect } from 'react-redux';
-import { Layout , Menu, Spin, Icon } from 'antd';
+import { Layout, Menu, Spin, Icon, message } from 'antd';
+import TopMenu from './../components/Menu/TopMenu';
+import SiderMenu from './../components/Menu/SiderMenu';
 import Logo from './../components/Logo';
+import { xPost } from './../utils/xFetch';
 import {topMenuConfig,siderMenuConfig} from './menu.config';
 import styles from './index.module.css';
+
 
 //pages
 const Home = lazy(()=>import('../pages/Home'));
@@ -27,10 +31,6 @@ const UserHeader= lazy(()=>import('../components/UserHeader'));
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
-
-const TopMenuItems = topMenuConfig.map(item=>(
-    <Menu.Item key={item.key}><Link to={item.to}>{item.title}</Link></Menu.Item>
-))
 
 
 @connect(()=>({}),dispatch=>({
@@ -54,22 +54,53 @@ class RouterIndex extends Component{
             path,
             // siderMenu控制的二级路由
             siderKey,
+            siderMenuItems:[] 
         }
     }
 
     componentDidMount(){
-        this.updateStore('UPDATE_BLOBMD',{
-            key:'home-home.md'
-        })
+
+        //更新左边menu
+        const {path} = this.state;
+        const selectItem = topMenuConfig.find(item=>item.to===path);
+        if(!selectItem){
+            return ;
+        }
+        const department = selectItem.value;
+
+        this.updateSiderMenu(department);
     }
 
-    updateStore = (type, values) => {
-        this.props.dispatch({
-            type,
-            payload: {
-                values
-            }
-        })
+    // 更新左边menu
+    updateSiderMenu = (department) => {
+        xPost('/blob/getAllTitle',{
+            department
+        })    
+            .then(res=>{
+                console.log(res);
+                const {code,msg='',data=[]} = res;
+                if(code!==200){
+                    return message.error(msg);
+                }
+                this.setState({
+                    siderMenuItems:data
+                })
+            })
+
+    }
+
+    updateContent = (type, values) => {
+        // const {path,siderKey,contentKey} = this.state;
+        // const department = topMenuConfig.find(item=>item.to===path).value;
+        // const type = siderMenuConfig.find(item=>item.to===siderKey).value;
+        // this.props.dispatch({
+        //     type,
+        //     payload: {
+        //         values:{
+        //             key
+        //         }
+        //     }
+        // })
     }
 
     handleTopMenuChange = item => {
@@ -77,47 +108,23 @@ class RouterIndex extends Component{
             path:item.key,
             siderKey:'/'
         })
-
+        const selectItem = topMenuConfig.find(one=>one.to===item.key);
+        if(!selectItem){
+            return ;
+        }
+        const department = selectItem.value;
+        this.updateSiderMenu(department);
     }
 
     handleSiderMenuChange = item => {
         this.setState({
-            siderKey:item.key
+            siderKey: item.key
         })
     }
-    renderSiderMenuItems = ()=>{
-        const { path, siderKey } = this.state;
-        return (
-            <Menu
-                theme="dark"
-                mode="inline"
-                style={{paddingTop:"10px"}}
-                selectedKeys={[siderKey]}
-                onSelect={this.handleSiderMenuChange}
-            >
-                <Menu.item key='/'>
-                    <Icon type="inbox" />
-                    <Link to='/' >概述</Link>
-                </Menu.item>
-                <SubMenu key='/blobs' title={
-                    <span>
-                        <Icon type="inbox" />
-                        <Link to='/' >博客</Link>   
-                    </span>
-                }>
-                    
-                </SubMenu>
-                <SubMenu key='/class_video'>
-                </SubMenu>
-            </Menu>
-        )
-        // return siderMenuConfig.map(item=>(
-        //     <Menu.Item key={item.key}><Link to={ path==='/'?item.to:path+item.to }>{item.title}</Link></Menu.Item>
-        // ))
-    }
+
     render(){
-        const { path,siderKey } = this.state;
-        // const siderMenuItems = this.renderSiderMenuItems();
+        const { path,siderKey,siderMenuItems } = this.state;
+        // const siderMenuItems = this.renderSiderMenu();
         return (
             <Router >
                 <Switch>
@@ -143,15 +150,10 @@ class RouterIndex extends Component{
                                         <Logo />
                                     </div>
                                     <div  className={styles.topMenuItems}>
-                                        <Menu
-                                            theme="dark"
-                                            mode="horizontal"
-                                            selectedKeys={[path]}
-                                            style={{ lineHeight: '64px' }}
-                                            onSelect= {this.handleTopMenuChange}
-                                        >
-                                            {TopMenuItems}
-                                        </Menu>
+                                        <TopMenu 
+                                            path={path}
+                                            handleTopMenuChange={this.handleTopMenuChange}
+                                        />
                                     </div>
                                     <UserHeader />
                             </Header>
@@ -163,7 +165,12 @@ class RouterIndex extends Component{
                                         width={150}
                                         collapsedWidth={0}
                                     >
-                                      sidermenu
+                                      <SiderMenu 
+                                        handleSiderMenuChange={this.handleSiderMenuChange}
+                                        path={path}
+                                        siderKey={siderKey}
+                                        siderMenuItems = {siderMenuItems}
+                                      />
                                     </Sider>
                                     <Content style={{ padding: '20px 30px 0 40px' }}>
                                         <div style={{ background: '#fff', padding: 24, height:'100%',borderRadius:'10px',overflow:'hidden' }}>
