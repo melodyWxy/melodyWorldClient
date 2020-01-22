@@ -4,13 +4,16 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import { connect } from 'react-redux';
-import { Layout , Menu, Spin, Icon } from 'antd';
+import { Layout, Spin, message } from 'antd';
+import TopMenu from './../components/Menu/TopMenu';
+import SiderMenu from './../components/Menu/SiderMenu';
 import Logo from './../components/Logo';
-import {topMenuConfig,siderMenuConfig} from './menu.config';
+import { xPost } from './../utils/xFetch';
+import {topMenuConfig} from './menu.config';
 import styles from './index.module.css';
+
 
 //pages
 const Home = lazy(()=>import('../pages/Home'));
@@ -26,11 +29,6 @@ const UserHeader= lazy(()=>import('../components/UserHeader'));
 
 
 const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
-
-const TopMenuItems = topMenuConfig.map(item=>(
-    <Menu.Item key={item.key}><Link to={item.to}>{item.title}</Link></Menu.Item>
-))
 
 
 @connect(()=>({}),dispatch=>({
@@ -54,22 +52,39 @@ class RouterIndex extends Component{
             path,
             // siderMenu控制的二级路由
             siderKey,
+            siderMenuItems:[] 
         }
     }
 
     componentDidMount(){
-        this.updateStore('UPDATE_BLOBMD',{
-            key:'home-home.md'
-        })
+
+        //更新左边menu
+        const {path,siderKey} = this.state;
+        const selectItem = topMenuConfig.find(item=>item.to===path);
+        if(!selectItem){
+            return ;
+        }
+        const department = selectItem.value;
+
+        this.updateSiderMenu(department);
+        this.getMDBysiderKey(siderKey);
     }
 
-    updateStore = (type, values) => {
-        this.props.dispatch({
-            type,
-            payload: {
-                values
-            }
-        })
+    // 更新左边menu
+    updateSiderMenu = (department) => {
+        xPost('/blob/getAllTitle',{
+            department
+        })    
+            .then(res=>{
+                const {code,msg='',data=[]} = res||{};
+                if(code!==200){
+                    return message.error(msg);
+                }
+                this.setState({
+                    siderMenuItems:data
+                })
+            })
+
     }
 
     handleTopMenuChange = item => {
@@ -77,47 +92,57 @@ class RouterIndex extends Component{
             path:item.key,
             siderKey:'/'
         })
-
+        const selectItem = topMenuConfig.find(one=>one.to===item.key);
+        if(!selectItem){
+            return ;
+        }
+        const department = selectItem.value;
+        this.updateSiderMenu(department);
+        this.getMDBysiderKey(item.key);
     }
 
     handleSiderMenuChange = item => {
         this.setState({
-            siderKey:item.key
+            siderKey: item.key
         })
+        this.getMDBysiderKey(item.key);
     }
-    renderSiderMenuItems = ()=>{
-        const { path, siderKey } = this.state;
-        return (
-            <Menu
-                theme="dark"
-                mode="inline"
-                style={{paddingTop:"10px"}}
-                selectedKeys={[siderKey]}
-                onSelect={this.handleSiderMenuChange}
-            >
-                <Menu.item key='/'>
-                    <Icon type="inbox" />
-                    <Link to='/' >概述</Link>
-                </Menu.item>
-                <SubMenu key='/blobs' title={
-                    <span>
-                        <Icon type="inbox" />
-                        <Link to='/' >博客</Link>   
-                    </span>
-                }>
-                    
-                </SubMenu>
-                <SubMenu key='/class_video'>
-                </SubMenu>
-            </Menu>
-        )
-        // return siderMenuConfig.map(item=>(
-        //     <Menu.Item key={item.key}><Link to={ path==='/'?item.to:path+item.to }>{item.title}</Link></Menu.Item>
-        // ))
+
+    getMDBysiderKey =  (siderKey='')  => {
+        const isBlobs = siderKey.indexOf('blobs')!==-1; 
+        const isClassVideo = siderKey.indexOf('class_video')!==-1;
+        const isHome = !isBlobs && !isClassVideo; 
+        const {dispatch} = this.props;
+        let key;
+        if(isBlobs){
+            key = siderKey.replace('/blobs/','');
+            dispatch({
+                type:"UPDATE_BLOBMD",
+                payload: {
+                    values:{
+                        key
+                    }
+                }
+            })
+        }
+        if(isClassVideo){
+            key = siderKey.replace('/class_video/','');
+        }
+        if(isHome){
+            key = siderKey === '/'?  'home-home': siderKey.replace('/','')+'-home' ;
+            dispatch({
+                type:"UPDATE_HOMEMD",
+                payload: {
+                    values:{
+                        key
+                    }
+                }
+            })
+        }
     }
+
     render(){
-        const { path,siderKey } = this.state;
-        // const siderMenuItems = this.renderSiderMenuItems();
+        const { path,siderKey,siderMenuItems } = this.state;
         return (
             <Router >
                 <Switch>
@@ -143,15 +168,10 @@ class RouterIndex extends Component{
                                         <Logo />
                                     </div>
                                     <div  className={styles.topMenuItems}>
-                                        <Menu
-                                            theme="dark"
-                                            mode="horizontal"
-                                            selectedKeys={[path]}
-                                            style={{ lineHeight: '64px' }}
-                                            onSelect= {this.handleTopMenuChange}
-                                        >
-                                            {TopMenuItems}
-                                        </Menu>
+                                        <TopMenu 
+                                            path={path}
+                                            handleTopMenuChange={this.handleTopMenuChange}
+                                        />
                                     </div>
                                     <UserHeader />
                             </Header>
@@ -163,7 +183,12 @@ class RouterIndex extends Component{
                                         width={150}
                                         collapsedWidth={0}
                                     >
-                                      sidermenu
+                                      <SiderMenu 
+                                        handleSiderMenuChange={this.handleSiderMenuChange}
+                                        path={path}
+                                        siderKey={siderKey}
+                                        siderMenuItems = {siderMenuItems}
+                                      />
                                     </Sider>
                                     <Content style={{ padding: '20px 30px 0 40px' }}>
                                         <div style={{ background: '#fff', padding: 24, height:'100%',borderRadius:'10px',overflow:'hidden' }}>
@@ -205,7 +230,7 @@ class RouterIndex extends Component{
                                 </Layout>
                                 <Footer style={{ textAlign: 'center' }}>
                                     <div>
-                                        MW ©2019 Created by melodyWxy
+                                        MW ©2020 Created by melodyWxy
                                     </div>
                                     <div>
                                         <a href='http://www.beian.miit.gov.cn/' target='_blank' >浙ICP备20001308号</a>

@@ -15,7 +15,9 @@ function UploadAdmin(props){
     const keyRef = useRef();
     const versionRef= useRef();
     const authorRef = useRef();
-
+    const titleRef = useRef();
+    const typeRef= useRef();
+    const departmentRef = useRef();
     const mdValue = window.localStorage.getItem('mdValue') || '' ; 
 
     const {state,setState} = useConstructor({
@@ -48,27 +50,27 @@ function UploadAdmin(props){
         message.warning('key can not be null!');
         return ;
       }
-      if(!versionRef||!versionRef.current||!versionRef.current.input){
-        message.warning('version can not be null!');
-        return ;
-      }
-      if(!authorRef||!authorRef.current||!authorRef.current.input){
-        message.warning('author can not be null!');
-        return ;
-      }
-
       const key = keyRef.current.input.value;
       const version = versionRef.current.input.value;
       const author = authorRef.current.input.value;
-      
+      const title = titleRef.current.input.value;
+      const type= typeRef.current.input.value;
+      const department = departmentRef.current.input.value;
+      //身份验证
+      const token = window.localStorage.getItem('loginCookie');
+
       props.dispatch({
         type: 'UPLOAD_BLOBS',
         payload: {
           values:{
+            cookie:token,
             key,
             version,
             author,
-            data: value
+            data: value,
+            title,
+            type,
+            department
           }
         }
       })
@@ -97,6 +99,9 @@ function UploadAdmin(props){
         </div>
         key:<Input ref={keyRef}/>
         version: <Input ref={versionRef}/>
+        title: <Input ref={titleRef}/>
+        type: <Input ref={typeRef} defaultValue='blobs'/>
+        department: <Input ref={departmentRef}/>
         author: <Input ref={authorRef} defaultValue='melodyWxy'/>
         <Button 
           type='primary'

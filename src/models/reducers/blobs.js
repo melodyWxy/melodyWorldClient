@@ -32,26 +32,48 @@ function* blobs_Upload ({ payload={} }){
     
 }
 
+function* home_effect( {payload={}} ){
+    const { values, callback } = payload;
+    const res = yield call(getBlobs,values);
+    const {isSuccess, data={} } = res;
+    if(!isSuccess){
+        message.error('没有这个文档呢~');
+    }else{
+        yield put({
+            type:blobsTypes.update,
+            payload:{
+                homeMd: data.md
+            }
+        })
+        callback && callback(data);
+    }
+}
+
 
 export function* watchBlobs() {
   yield takeEvery('UPDATE_BLOBMD',blobs_effect );
   yield takeEvery('UPLOAD_BLOBS',blobs_Upload);
+  yield takeEvery('UPDATE_HOMEMD',home_effect);
 }
 const initState = {
-    blobMd:'' 
+    blobMd:'' ,
+    homeMd:'' ,
+    videoSrc:'' ,
 }
 
 
 function blobs(state = initState,{ type='', payload={} }){
-    const { blobMd = '' } = payload;
     switch(type){
         case blobsTypes.update:
-            return { 
-                blobMd
+            return {
+                ...state,
+                ...payload
             }
         default: 
             return state
     }
 }
+
+
 
 export default blobs;

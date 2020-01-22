@@ -2,51 +2,63 @@
 export const topMenuConfig = [{
     key:'/',
     to:'/',
-    title:'主页'
+    title:'主页',
+    value:'home',
 },{
     key:'/js',
     to:'/js',
-    title:'js核心'
+    title:'js核心',
+    value:'js',
 },{
     key:'/react_0',
     to:'/react_0',
-    title:'react基础'
+    title:'react基础',
+    value:'react_0',
 },{
     key:'/react_1',
     to:'/react_1',
-    title:'react高阶'
+    title:'react高阶',
+    value:'react_1',
 },{
     key:'/react_2',
     to:'/react_2',
-    title:'react拓展'
+    title:'react拓展',
+    value:'react_2',
 },{
     key:'/webpack',
     to:'/webpack',
-    title:'webpack'
+    title:'webpack',
+    value:'webpack',
 },{
     key:'/es6',
     to:'/es6',
-    title:'es6+拓展'
+    title:'es6+拓展',
+    value:'es6',
 },{
     key:'/realcc',
     to:'/realcc',
-    title:'大前端拓展'
+    title:'大前端拓展',
+    value:'realcc',
 },{
     key:'/friend',
     to:'/friend',
-    title:'赞助'
+    title:'赞助',
+    value:'friend',
 }];
 
 export const siderMenuConfig = [{
     key:'/',
     to:'/',
-    title:'概述'
+    title:'概述',
+    value:'home'
 },{
     key:'/blobs',
     to:'/blobs',
-    title:'博客'
+    title:'博客',
+    value:'blobs'
 },{
     key:'/class_video',
     to:'/class_video',
-    title:'课程'
+    title:'课程',
+    value:'class_video'
 }]
