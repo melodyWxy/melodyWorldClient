@@ -1,5 +1,5 @@
 # melody-world-client 
-> MW client端 
+> MW client端  version: 0.1.0
 
 ## melody-world-server
 
@@ -19,12 +19,20 @@ email: 18210711176@163.com
 
 ### register
 
-![register](https://melodyworld.oss-cn-beijing.aliyuncs.com/publicDoc/doc-jpgs/register.jpg?x-oss-process=style/_90_90)
+<img alt='register图解' 
+    src='https://melodyworld.oss-cn-beijing.aliyuncs.com/publicDoc/doc-jpgs/register.jpg?x-oss-process=style/_90_90'
+    width = '600px'
+    height= '450px'>
+
 
 
 ### login 
 
-![login](https://melodyworld.oss-cn-beijing.aliyuncs.com/publicDoc/doc-jpgs/login.jpg?x-oss-process=style/_90_90)
+<img alt='register图解' 
+    src='https://melodyworld.oss-cn-beijing.aliyuncs.com/publicDoc/doc-png/MW-login1.png?x-oss-process=style/_90_90'
+    width = '750px'
+    height= '450px'>
+
 
 
 ### blobs
@@ -34,6 +42,16 @@ email: 18210711176@163.com
 ### router
 
 
+
+
+## featrue 
+
+
+### 0.1.1
+
++ 评论+点赞功能; 
++ user页面(我的资料，我的评论历史)
++ 找回密码功能
 
 
 
