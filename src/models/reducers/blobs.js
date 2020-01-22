@@ -53,6 +53,7 @@ function* home_effect( {payload={}} ){
 export function* watchBlobs() {
   yield takeEvery('UPDATE_BLOBMD',blobs_effect );
   yield takeEvery('UPLOAD_BLOBS',blobs_Upload);
+  yield takeEvery('UPDATE_HOMEMD',home_effect);
 }
 const initState = {
     blobMd:'' ,
@@ -62,15 +63,17 @@ const initState = {
 
 
 function blobs(state = initState,{ type='', payload={} }){
-    const { blobMd = '' } = payload;
     switch(type){
         case blobsTypes.update:
-            return { 
-                blobMd
+            return {
+                ...state,
+                ...payload
             }
         default: 
             return state
     }
 }
+
+
 
 export default blobs;

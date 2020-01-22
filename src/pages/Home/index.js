@@ -5,6 +5,11 @@ import {connect} from 'react-redux';
  
 function Home(props){
     const { homeMd = '' } = props;  
+    if(!homeMd){
+        return (
+            <div>该内容区尚未开放，请等待作者上传相关资料哟~</div>
+        )
+    }
     return (
         <>
             <div className={styles.mdwrap}>
@@ -16,10 +21,9 @@ function Home(props){
     )
 }
 
-const NHome = connect((state)=>{
-  console.log(state);
-  return {}
-})(Home);
+const NHome = connect(({blobs={}})=>({
+    homeMd: blobs.homeMd||''
+}))(Home);
  
 export default NHome;
 

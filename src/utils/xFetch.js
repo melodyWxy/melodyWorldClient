@@ -1,6 +1,7 @@
 export  async function xGet(...props){
     const result = await fetch(...props)
         .then(res=>res.json())
+        .catch(console.error)
     return result;
 }
 export async function xPost(url,body){
@@ -12,5 +13,6 @@ export async function xPost(url,body){
           body:JSON.stringify(body)
         })
         .then(res=>res.json())
+        .catch(console.error)
     return result;
 }

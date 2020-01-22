@@ -4,15 +4,14 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import { connect } from 'react-redux';
-import { Layout, Menu, Spin, Icon, message } from 'antd';
+import { Layout, Spin, message } from 'antd';
 import TopMenu from './../components/Menu/TopMenu';
 import SiderMenu from './../components/Menu/SiderMenu';
 import Logo from './../components/Logo';
 import { xPost } from './../utils/xFetch';
-import {topMenuConfig,siderMenuConfig} from './menu.config';
+import {topMenuConfig} from './menu.config';
 import styles from './index.module.css';
 
 
@@ -30,7 +29,6 @@ const UserHeader= lazy(()=>import('../components/UserHeader'));
 
 
 const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
 
 
 @connect(()=>({}),dispatch=>({
@@ -61,7 +59,7 @@ class RouterIndex extends Component{
     componentDidMount(){
 
         //更新左边menu
-        const {path} = this.state;
+        const {path,siderKey} = this.state;
         const selectItem = topMenuConfig.find(item=>item.to===path);
         if(!selectItem){
             return ;
@@ -69,6 +67,7 @@ class RouterIndex extends Component{
         const department = selectItem.value;
 
         this.updateSiderMenu(department);
+        this.getMDBysiderKey(siderKey);
     }
 
     // 更新左边menu
@@ -77,8 +76,7 @@ class RouterIndex extends Component{
             department
         })    
             .then(res=>{
-                console.log(res);
-                const {code,msg='',data=[]} = res;
+                const {code,msg='',data=[]} = res||{};
                 if(code!==200){
                     return message.error(msg);
                 }
@@ -87,20 +85,6 @@ class RouterIndex extends Component{
                 })
             })
 
-    }
-
-    updateContent = (type, values) => {
-        // const {path,siderKey,contentKey} = this.state;
-        // const department = topMenuConfig.find(item=>item.to===path).value;
-        // const type = siderMenuConfig.find(item=>item.to===siderKey).value;
-        // this.props.dispatch({
-        //     type,
-        //     payload: {
-        //         values:{
-        //             key
-        //         }
-        //     }
-        // })
     }
 
     handleTopMenuChange = item => {
@@ -114,17 +98,51 @@ class RouterIndex extends Component{
         }
         const department = selectItem.value;
         this.updateSiderMenu(department);
+        this.getMDBysiderKey(item.key);
     }
 
     handleSiderMenuChange = item => {
         this.setState({
             siderKey: item.key
         })
+        this.getMDBysiderKey(item.key);
+    }
+
+    getMDBysiderKey =  (siderKey='')  => {
+        const isBlobs = siderKey.indexOf('blobs')!==-1; 
+        const isClassVideo = siderKey.indexOf('class_video')!==-1;
+        const isHome = !isBlobs && !isClassVideo; 
+        const {dispatch} = this.props;
+        let key;
+        if(isBlobs){
+            key = siderKey.replace('/blobs/','');
+            dispatch({
+                type:"UPDATE_BLOBMD",
+                payload: {
+                    values:{
+                        key
+                    }
+                }
+            })
+        }
+        if(isClassVideo){
+            key = siderKey.replace('/class_video/','');
+        }
+        if(isHome){
+            key = siderKey === '/'?  'home-home': siderKey.replace('/','')+'-home' ;
+            dispatch({
+                type:"UPDATE_HOMEMD",
+                payload: {
+                    values:{
+                        key
+                    }
+                }
+            })
+        }
     }
 
     render(){
         const { path,siderKey,siderMenuItems } = this.state;
-        // const siderMenuItems = this.renderSiderMenu();
         return (
             <Router >
                 <Switch>
@@ -212,7 +230,7 @@ class RouterIndex extends Component{
                                 </Layout>
                                 <Footer style={{ textAlign: 'center' }}>
                                     <div>
-                                        MW ©2019 Created by melodyWxy
+                                        MW ©2020 Created by melodyWxy
                                     </div>
                                     <div>
                                         <a href='http://www.beian.miit.gov.cn/' target='_blank' >浙ICP备20001308号</a>
