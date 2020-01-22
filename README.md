@@ -44,7 +44,7 @@ email: 18210711176@163.com
 
 
 
-## featrue 
+## Future 
 
 
 ### 0.1.1
