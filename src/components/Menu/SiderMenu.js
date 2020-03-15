@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Menu,Icon} from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
+import { Menu } from 'antd';
 
 const {SubMenu} = Menu;
 
@@ -32,13 +33,13 @@ export function SiderMenu(props){
         >
             <Menu.Item key={path}>
                 <Link to={path} >
-                    <Icon type="inbox" /> 
+                    <InboxOutlined /> 
                     概述
                 </Link>
             </Menu.Item>
             <SubMenu key='/blobs' title={
                 <span>
-                    <Icon type="inbox" />
+                    <InboxOutlined />
                     博客
                 </span>
             }>
@@ -46,13 +47,13 @@ export function SiderMenu(props){
             </SubMenu>
             <SubMenu key='/class_video' title={
                 <span>
-                    <Icon type="inbox" />
+                    <InboxOutlined />
                     课程
                 </span>
             }>
                 {renderItems(videoList,path)}
             </SubMenu>
         </Menu>
-    )
+    );
 }
 export default SiderMenu;
