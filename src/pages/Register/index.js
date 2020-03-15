@@ -1,14 +1,9 @@
 import React,{lazy,Suspense} from 'react';
 import { connect } from 'react-redux'
-import {
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Button,
-  message,
-  Spin
-} from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Tooltip, Button, message, Spin } from 'antd';
 import {withRouter} from 'react-router-dom';
 import NodeRSA from 'node-rsa';
 import { xGet, xPost } from '../../utils/xFetch';
@@ -150,7 +145,7 @@ class RegistrationForm extends React.Component {
             <span>
               Username&nbsp;
               <Tooltip title="也作为你的昵称(nickname)">
-                <Icon type="question-circle-o" />
+                <QuestionCircleOutlined />
               </Tooltip>
             </span>
           }

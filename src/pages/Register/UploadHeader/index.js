@@ -1,6 +1,7 @@
 import React,{useState,useMemo} from 'react';
 import OSS from 'ali-oss';
-import {Icon,Upload,message} from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Upload, message } from 'antd';
 import styles from './index.module.css';
 import uploadBase64Img from './../../../utils/upload';
 import  {xGet} from './../../../utils/xFetch';
@@ -32,7 +33,7 @@ export default function (props){
     let imgname = '';
     const uploadButton = useMemo(()=>(
         <div>
-          <Icon type={loading ? 'loading' : 'plus'} />
+          <LegacyIcon type={loading ? 'loading' : 'plus'} />
           <div className="ant-upload-text">Upload</div>
         </div>
     ),[loading]);
