@@ -32,13 +32,17 @@ class NormalLoginForm extends React.Component {
         values.password = Public_key.encrypt(values.password,'base64','utf8');
         console.log('小朋友，你是看不见账号密码的!',values);
         const { history = {} } = this.props;
+        const  {callback='/'} = params ||{};
         this.props.dispatch({
           type: "USER_LOGIN",
           payload: {
             values,
             callback:()=>{
-              const path = params.callback||'/'
-              history.push(path)
+              if(callback==='/'){
+                window.location.pathname = callback;
+              }else{
+                history.push(callback)
+              }
             }
           }
         })

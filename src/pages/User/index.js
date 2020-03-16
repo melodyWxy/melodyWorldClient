@@ -1,20 +1,22 @@
-import React, { Component } from 'react'
+import React from 'react';
+import { connect } from 'react-redux'; 
 
 
-export class User extends Component {
 
-
-    handleBtnClick = e => {
-
+function User(props){
+    console.log(props,1);
+    const {login = {}} = props;
+    const {isLogin,user={}} = login;
+    if(!isLogin){
+        window.location.pathname = "/login";
+        return ;
     }
-
-    render() {
-        return (
-            <div>
-                User
-            </div>
-        )
-    }
+    const {} = user;
+    return (
+        <div>
+            user
+        </div>
+    )
 }
 
-export default User;
+export default connect(({login})=>({login}),)(User);

@@ -151,6 +151,11 @@ class RouterIndex extends Component{
                             <Register />
                         </Suspense>
                     </Route>
+                    <Route path="/user">
+                        <Suspense fallback={<Spin />}>
+                            <User />
+                        </Suspense>
+                    </Route>
                     <Route path="/login">
                         <Suspense fallback={<Spin />}>
                             <Login />
@@ -193,11 +198,6 @@ class RouterIndex extends Component{
                                     <Content style={{ padding: '20px 30px 0 40px' }}>
                                         <div style={{ background: '#fff', padding: 24, height:'100%',borderRadius:'10px',overflow:'hidden' }}>
                                             <Switch>
-                                                <Route path="/user">
-                                                    <Suspense fallback={<Spin />}>
-                                                        <User />
-                                                    </Suspense>
-                                                </Route>
                                                 <Route path="/blobs">
                                                     <Suspense fallback={<Spin />}>
                                                         <Blobs />
